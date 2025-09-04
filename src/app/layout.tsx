@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import { Roboto } from 'next/font/google';
+
+import ReduxProvider from '@/store/ReduxProvider';
+
 import './globals.css';
 
 const roboto = Roboto({
@@ -8,8 +11,8 @@ const roboto = Roboto({
 });
 
 export const metadata: Metadata = {
-  title: 'skypro fitness',
-  description: 'skypro fitness app',
+  title: 'skypro-fitness',
+  description: 'skypro-fitness-app',
 };
 
 export default function RootLayout({
@@ -18,8 +21,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${roboto.variable}`}>{children}</body>
-    </html>
+    <ReduxProvider>
+      <html lang="en">
+        <body className={`${roboto.variable}`}>{children}</body>
+      </html>
+    </ReduxProvider>
   );
 }

@@ -1,0 +1,152 @@
+.auth__container {
+  position: absolute;
+  top: calc((50% - 150px));
+  z-index: 100;
+  left: calc((100% - 360px) / 2);
+
+  width: 360px;
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 48px;
+  border-radius: 30px;
+  padding: 40px;
+  background-color: #ffffff;
+  box-shadow: 0px 4px 67px -12px rgba(0, 0, 0, 0.13);
+}
+
+.auth__formContainer {
+  width: 100%;
+}
+
+.auth__inputsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth__input {
+  width: 100%;
+  height: 52px;
+  border-radius: 8px;
+  border: 1px solid #d0cece;
+  padding: 16px 18px 16px 18px;
+
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 110%;
+  letter-spacing: 0px;
+  color: #000000;
+}
+
+.auth__input_error {
+  border-color: #db0030;
+}
+
+.auth__input:-ms-input-placeholder {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 110%;
+  letter-spacing: 0px;
+  color: #d0cece;
+}
+
+.auth__input::-webkit-input-placeholder {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 110%;
+  letter-spacing: 0px;
+  color: #d0cece;
+}
+
+.auth__input::-ms-input-placeholder {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 110%;
+  letter-spacing: 0px;
+  color: #d0cece;
+}
+
+.auth__input::placeholder {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 110%;
+  letter-spacing: 0px;
+  color: #d0cece;
+}
+
+.errorContainer {
+  margin-top: 10px;
+  margin-bottom: 34px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 110%;
+  letter-spacing: 0px;
+  text-align: center;
+  color: #f84d4d;
+}
+
+.auth__btnsContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.auth__btnSendData {
+  width: 100%;
+  height: 52px;
+  border-radius: 46px;
+  padding: 16px 26px 16px 26px;
+  border: none;
+  background-color: #bcec30;
+
+  cursor: pointer;
+}
+
+.auth__btnSendData:hover {
+  background-color: #c6ff00;
+}
+
+.auth__btnSendData_inactive {
+  background-color: #f7f7f7;
+}
+
+.auth__btnSendData_inactive:hover {
+  background-color: #f7f7f7;
+}
+
+.auth__btnFormChange {
+  width: 100%;
+  height: 52px;
+  border-radius: 46px;
+  padding: 16px 26px 16px 26px;
+  border: 1px solid #000000;
+  background-color: transparent;
+
+  cursor: pointer;
+}
+
+.auth__btnFormChange:hover {
+  background-color: #f7f7f7;
+}
+
+.auth__btnFormChange_inactive {
+  border: 1px solid #999999;
+}
+
+.auth__btnFormChange_inactive:hover {
+  background-color: transparent;
+}
+
+.auth__btnText {
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 110%;
+  letter-spacing: 0px;
+  color: #000000;
+}
+
+.auth__btnText_inactive {
+  color: #999999;
+}
