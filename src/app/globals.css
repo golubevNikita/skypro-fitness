@@ -6,11 +6,20 @@
 
 body {
   font-family: var(--font-roboto), 'Arial';
+  padding-right: calc(50% - 580px);
+  padding-left: calc(50% - 580px);
+  background-color: #fafafa;
+  overflow-x: hidden;
 }
 
 a,
 input,
 button {
+  color: #000000;
   text-decoration: none;
   font-family: var(--font-roboto), 'Arial';
+}
+
+ul {
+  list-style: none;
 }
