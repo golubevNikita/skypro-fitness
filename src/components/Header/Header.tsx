@@ -7,6 +7,7 @@ import { useState } from 'react';
 
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { clearStorageTokens, setisOpenPopup } from '@/store/features/authSlice';
+import { setCurrentCourse } from '@/store/features/courseSlice';
 
 import styles from './header.module.css';
 
@@ -18,9 +19,7 @@ export default function Header({
   const router = useRouter();
   const dispatch = useAppDispatch();
 
-  const { isOpenPopup, email } = useAppSelector(
-    (state) => state.authentication,
-  );
+  const { isOpenPopup, user } = useAppSelector((state) => state.authentication);
 
   const [isOpenManagementPanel, setIsOpenManagementPanel] =
     useState<boolean>(false);
@@ -53,12 +52,13 @@ export default function Header({
           width={withInscription ? 326 : 220}
           height={withInscription ? 71 : 35}
           onClick={() => {
+            dispatch(setCurrentCourse(null));
             router.push('/main');
           }}
           style={{ cursor: 'pointer' }}
         />
 
-        {email ? (
+        {user.email ? (
           <div
             className={styles.login__infoContainer}
             onClick={() => {
@@ -80,7 +80,7 @@ export default function Header({
               />
             </svg>
 
-            <h4 className={styles.login__userEmail}>{email}</h4>
+            <h4 className={styles.login__userEmail}>{user.email}</h4>
 
             <svg
               width="14"
@@ -97,7 +97,7 @@ export default function Header({
             </svg>
             {isOpenManagementPanel ? (
               <div className={styles.login__managementPanel}>
-                <p className={styles.login__userEmail_panel}>{email}</p>
+                <p className={styles.login__userEmail_panel}>{user.email}</p>
 
                 <Link
                   className={styles.login__panel_profileBtn}
