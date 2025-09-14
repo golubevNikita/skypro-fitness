@@ -2,33 +2,48 @@
 
 import { useEffect, useState } from 'react';
 import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
-import { getAllCourses } from '@/services/courseApi';
+import {
+  getAllCourses,
+  getWorkoutsList,
+  getCourseProgress,
+} from '@/services/courseApi';
 
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import { setisOpenPopup } from '@/store/features/authSlice';
+import { setAllCourses } from '@/store/features/courseSlice';
 
 import Header from '@/components/Header/Header';
 import CourseItem from '@/components/CourseItem/CourseItem';
 import Auth from '../Auth/Auth';
 
-import { CourseItemInterface } from '@/sharedInterfaces/sharedInterfaces';
+import {
+  CourseItemInterface,
+  CourseProgressInterface,
+  WorkoutsListInterface,
+  WorkoutsStateInterface,
+} from '@/sharedInterfaces/sharedInterfaces';
 
 import styles from './main.module.css';
 
 export default function Main() {
   const dispatch = useAppDispatch();
 
-  const { isOpenPopup } = useAppSelector((state) => state.authentication);
+  const { isOpenPopup, user } = useAppSelector((state) => state.authentication);
 
   const [courses, setCourses] = useState<CourseItemInterface[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
+
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     async function getCourses() {
+      setIsLoading(true);
+
       try {
         const allCourses = await getAllCourses();
+        dispatch(setAllCourses(allCourses));
         setCourses(allCourses);
       } catch (error) {
         if (error instanceof AxiosError) {
@@ -100,7 +115,8 @@ export default function Main() {
             <CourseItem
               key={courseItem._id}
               courseItem={courseItem}
-              withAuthentication={false}
+              withProgress={false}
+              isAbleToAdd={true}
             />
           ))
         )}

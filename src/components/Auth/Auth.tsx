@@ -5,15 +5,20 @@ import classNames from 'classnames';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { AxiosError } from 'axios';
+import { toast } from 'react-toastify';
 
 import { userLogin, userSignup } from '@/services/authApi';
+import { getUserData } from '@/services/courseApi';
 
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import {
   setisOpenPopup,
   setisSignUp,
+  setUserId,
   setStorageLogin,
   setStorageToken,
+  setSelectedCourses,
+  setCourseProgress,
 } from '@/store/features/authSlice';
 
 import {
@@ -123,6 +128,14 @@ export default function Auth() {
           const loginResponse = response as LoginPromiseInterface;
           dispatch(setStorageLogin(loginAndSignupData.email));
           dispatch(setStorageToken(loginResponse.token));
+
+          toast.success('Вход выполнен');
+
+          getUserData(loginResponse.token).then((response) => {
+            console.log(response);
+            dispatch(setSelectedCourses(response.selectedCourses));
+            dispatch(setCourseProgress(response.courseProgress));
+          });
         } else {
           // const signupResponse = response as SignupPromiseInterface;
           // toast.success(signupResponse.message);
