@@ -24,7 +24,6 @@ import {
 } from '@/services/utilities';
 
 import styles from './selectWorkout.module.css';
-import { current } from '@reduxjs/toolkit';
 
 export default function SelectWorkout({
   courseWorkouts,
@@ -61,9 +60,6 @@ export default function SelectWorkout({
     }
 
     if (chosenWorkoutId && currentWorkout) {
-      console.log(chosenWorkoutId);
-      console.log(currentWorkout);
-
       dispatch(setCurrentWorkout(currentWorkout));
       router.push(`/workout/${chosenWorkoutId}`);
 

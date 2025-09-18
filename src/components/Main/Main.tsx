@@ -11,12 +11,12 @@ import {
 } from '@/services/courseApi';
 
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { setisOpenPopup } from '@/store/features/authSlice';
 import { setAllCourses } from '@/store/features/courseSlice';
 
+import Auth from '../Auth/Auth';
 import Header from '@/components/Header/Header';
 import CourseItem from '@/components/CourseItem/CourseItem';
-import Auth from '../Auth/Auth';
+import CourseItemSkeleton from '../CourseItem/CourseItemSkeleton';
 
 import {
   CourseItemInterface,
@@ -30,8 +30,9 @@ import styles from './main.module.css';
 export default function Main() {
   const dispatch = useAppDispatch();
 
-  const { isOpenPopup, user } = useAppSelector((state) => state.authentication);
+  const { user } = useAppSelector((state) => state.authentication);
 
+  const [isOpenAuthPopup, setIsOpenAuthPopup] = useState<boolean>(false);
   const [courses, setCourses] = useState<CourseItemInterface[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -63,21 +64,21 @@ export default function Main() {
 
   return (
     <div style={{ position: 'relative' }}>
-      {isOpenPopup ? (
+      {isOpenAuthPopup ? (
         <>
           <div
             className={styles.auth__popupListener}
             onClick={() => {
-              dispatch(setisOpenPopup(!isOpenPopup));
+              setIsOpenAuthPopup(false);
             }}
           ></div>
-          <Auth />
+          <Auth authPopup={setIsOpenAuthPopup} />
         </>
       ) : (
         ''
       )}
 
-      <Header withInscription={true} />
+      <Header withInscription={true} authPopup={setIsOpenAuthPopup} />
 
       <div className={styles.mainTitle__container}>
         <h1 className={styles.mainTitle__text}>
@@ -107,9 +108,13 @@ export default function Main() {
 
       <div className={styles.courses__container}>
         {isLoading ? (
-          <div>Загрузка курсов...</div>
+          Array.from({ length: 6 }).map((item, index) => (
+            <div key={index}>
+              <CourseItemSkeleton withProgress={false} />
+            </div>
+          ))
         ) : errorMessage ? (
-          errorMessage
+          <p className={styles.courses__error_message}>{errorMessage}</p>
         ) : (
           courses.map((courseItem) => (
             <CourseItem
@@ -120,6 +125,12 @@ export default function Main() {
             />
           ))
         )}
+      </div>
+
+      <div className={styles.courses__anchorBtn_container}>
+        <button className={styles.courses__anchorBtn}>
+          <a href="#portalToTheTopOfThePage">Наверх ↑ </a>
+        </button>
       </div>
     </div>
   );

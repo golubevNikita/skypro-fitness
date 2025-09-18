@@ -5,13 +5,20 @@ import Link from 'next/link';
 import { useState, SetStateAction } from 'react';
 import { AxiosError } from 'axios';
 import { usePathname } from 'next/navigation';
-// import classNames from 'classnames';
 import { toast } from 'react-toastify';
 
-import { addCourse, removeCourse } from '@/services/courseApi';
+import {
+  getUserData,
+  addCourse,
+  removeCourse,
+  resetCourseProgress,
+} from '@/services/courseApi';
 
 import { useAppDispatch, useAppSelector } from '@/store/store';
-import { updateSelectedCourses } from '@/store/features/authSlice';
+import {
+  setCourseProgress,
+  updateSelectedCourses,
+} from '@/store/features/authSlice';
 import { setCurrentCourse } from '@/store/features/courseSlice';
 
 import DifficultyItem from '../DifficultyItem/DifficultyItem';
@@ -24,14 +31,9 @@ import {
   CourseProgressInterface,
 } from '@/sharedInterfaces/sharedInterfaces';
 
-import { pictureDefiner, progressbarLevelDefiner } from '@/services/utilities';
+import { pictureDefiner, progressbarCourseDefiner } from '@/services/utilities';
 
 import styles from './courseItem.module.css';
-
-// className={classNames(
-//               styles.course__infoDesign,
-//               styles.course__durationInDays,
-//             )}
 
 export default function CourseItem({
   courseItem,
@@ -39,6 +41,7 @@ export default function CourseItem({
   isAbleToAdd,
   courseWorkouts,
   workoutsPopUp,
+  confirmPopup,
 }: {
   courseItem: CourseItemInterface;
   withProgress: boolean;
@@ -46,6 +49,7 @@ export default function CourseItem({
   courseWorkouts?: WorkoutsStateInterface;
   progressWorkouts?: CourseProgressInterface;
   workoutsPopUp?: React.Dispatch<SetStateAction<boolean>>;
+  confirmPopup?: React.Dispatch<SetStateAction<boolean>>;
 }) {
   const pathname = usePathname();
   const dispatch = useAppDispatch();
@@ -56,12 +60,16 @@ export default function CourseItem({
 
   let progressbarLevel: number = 0;
   if (withProgress && courseWorkouts) {
-    progressbarLevel = progressbarLevelDefiner(
+    progressbarLevel = progressbarCourseDefiner(
       user.courseProgress,
       courseItem._id,
       courseWorkouts.workoutsList,
     );
   }
+
+  const isCourseCompleted = user.courseProgress.find(
+    (course) => course.courseId === courseItem._id,
+  )?.courseCompleted;
 
   function onClickSetCourse() {
     dispatch(setCurrentCourse(courseItem));
@@ -92,9 +100,9 @@ export default function CourseItem({
     const usedFunction = isAlreadySelected ? removeCourse : addCourse;
 
     try {
-      const resultOfAdding = await usedFunction(courseItem._id, user.token);
+      const resultOfUserAct = await usedFunction(courseItem._id, user.token);
 
-      toast.success(resultOfAdding);
+      toast.success(resultOfUserAct);
       dispatch(updateSelectedCourses(courseItem._id));
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -107,8 +115,6 @@ export default function CourseItem({
     } finally {
       setIsLoading(false);
     }
-
-    return;
   }
 
   return (
@@ -122,10 +128,10 @@ export default function CourseItem({
         />
 
         {isLoading ? (
-          <div className={styles.add__loadingIcon}></div>
+          <div className={styles.addRemove__icon_loading}></div>
         ) : (
           <svg
-            className={styles.add__icon}
+            className={styles.addRemove__icon}
             onClick={(event) => addRemoveCourse(event)}
             width="32"
             height="32"
@@ -224,6 +230,12 @@ export default function CourseItem({
             className={styles.course__workoutsBtn}
             onClick={() => {
               onClickSetCourse();
+
+              if (isCourseCompleted && confirmPopup) {
+                confirmPopup(true);
+                return;
+              }
+
               if (workoutsPopUp) {
                 workoutsPopUp(true);
               }

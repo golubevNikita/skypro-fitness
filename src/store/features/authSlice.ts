@@ -2,9 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CourseProgressInterface } from '@/sharedInterfaces/sharedInterfaces';
 
 interface initialState {
-  isOpenPopup: boolean;
-  // регулирует отображение окна авторизации / регистрации
-
   isSignup: boolean;
   // текущая форма: авторизация / регистрация
 
@@ -26,7 +23,6 @@ interface initialState {
 }
 
 const initialState: initialState = {
-  isOpenPopup: false,
   isSignup: false,
   user: {
     userId: '',
@@ -41,34 +37,33 @@ const authSlice = createSlice({
   name: 'authentication',
   initialState,
   reducers: {
-    setisOpenPopup: (state, action: PayloadAction<boolean>) => {
-      state.isOpenPopup = action.payload;
-    },
-
     setisSignUp: (state, action: PayloadAction<boolean>) => {
       state.isSignup = action.payload;
     },
 
     setUserId: (state, action: PayloadAction<string>) => {
       state.user.userId = action.payload;
+      localStorage.setItem('userId', action.payload);
     },
 
     setStorageLogin: (state, action: PayloadAction<string>) => {
       state.user.email = action.payload;
-      // localStorage.setItem('email', action.payload);
+      localStorage.setItem('email', action.payload);
     },
 
     setStorageToken: (state, action: PayloadAction<string>) => {
       state.user.token = action.payload;
-      // localStorage.setItem('token', action.payload);
+      localStorage.setItem('token', action.payload);
     },
 
     clearStorageTokens: (state) => {
+      state.user.userId = '';
       state.user.email = '';
       state.user.token = '';
 
-      // localStorage.removeItem('email');
-      // localStorage.removeItem('token');
+      localStorage.removeItem('userId');
+      localStorage.removeItem('email');
+      localStorage.removeItem('token');
     },
 
     setSelectedCourses: (state, action: PayloadAction<string[]>) => {
@@ -96,7 +91,6 @@ const authSlice = createSlice({
 });
 
 export const {
-  setisOpenPopup,
   setisSignUp,
   setUserId,
   setStorageLogin,

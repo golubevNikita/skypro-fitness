@@ -1,5 +1,5 @@
 .auth__container {
-  position: absolute;
+  position: fixed;
   top: calc((50% - 150px));
   z-index: 100;
   left: calc((100% - 360px) / 2);
