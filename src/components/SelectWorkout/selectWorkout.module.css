@@ -28,7 +28,23 @@
   gap: 10px;
   margin-top: 48px;
   margin-bottom: 34px;
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+.workoutSelection__workoutsContainer::-webkit-scrollbar {
+  width: 6px;
+}
+
+.workoutSelection__workoutsContainer::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #f7f7f7;
+}
+
+.workoutSelection__workoutsContainer::-webkit-scrollbar-thumb {
+  min-height: 116px;
+  border-radius: 10px;
+  border: none;
+  background-color: #000000;
 }
 
 .workoutSelection__workoutItem {

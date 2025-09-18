@@ -88,10 +88,74 @@ export function getCourseProgress(
   });
 }
 
-// export function getSelectionById(
-//   id: string,
-// ): Promise<SelectionByIdPromiseInterface> {
-//   return axios(URL_TRACKS + `/catalog/selection/${id}/`).then((response) => {
-//     return response.data;
-//   });
-// }
+export function resetCourseProgress(
+  courseId: string,
+  token: string,
+): Promise<{
+  message: string;
+}> {
+  return axios
+    .patch(
+      URL_TRACKS + `/api/fitness/courses/${courseId}/reset`,
+      {},
+      {
+        headers: {
+          'Content-Type': '',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+    .then((response) => {
+      return response.data;
+    });
+}
+
+export function saveWorkoutProgress(
+  courseId: string,
+  workoutId: string,
+  progressData: number[],
+  token: string,
+): Promise<{
+  message: string;
+}> {
+  return axios
+    .patch(
+      URL_TRACKS + `/api/fitness/courses/${courseId}/workouts/${workoutId}`,
+      {
+        progressData: progressData,
+      },
+      {
+        headers: {
+          'Content-Type': '',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+    .then((response) => {
+      return response.data;
+    });
+}
+
+export function resetWorkoutProgress(
+  courseId: string,
+  workoutId: string,
+  token: string,
+): Promise<{
+  message: string;
+}> {
+  return axios
+    .patch(
+      URL_TRACKS +
+        `/api/fitness/courses/${courseId}/workouts/${workoutId}/reset`,
+      {},
+      {
+        headers: {
+          'Content-Type': '',
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    )
+    .then((response) => {
+      return response.data;
+    });
+}
