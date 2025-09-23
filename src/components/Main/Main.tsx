@@ -1,66 +1,21 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { AxiosError } from 'axios';
-import { toast } from 'react-toastify';
+import { useState } from 'react';
 
-import {
-  getAllCourses,
-  getWorkoutsList,
-  getCourseProgress,
-} from '@/services/courseApi';
-
-import { useAppDispatch, useAppSelector } from '@/store/store';
-import { setAllCourses } from '@/store/features/courseSlice';
+import { useAppSelector } from '@/store/store';
 
 import Auth from '../Auth/Auth';
 import Header from '@/components/Header/Header';
 import CourseItem from '@/components/CourseItem/CourseItem';
 import CourseItemSkeleton from '../CourseItem/CourseItemSkeleton';
 
-import {
-  CourseItemInterface,
-  CourseProgressInterface,
-  WorkoutsListInterface,
-  WorkoutsStateInterface,
-} from '@/sharedInterfaces/sharedInterfaces';
-
 import styles from './main.module.css';
 
 export default function Main() {
-  const dispatch = useAppDispatch();
-
-  const { user } = useAppSelector((state) => state.authentication);
+  const { allCourses } = useAppSelector((state) => state.courses);
+  const { loading, error } = useAppSelector((state) => state.utilities);
 
   const [isOpenAuthPopup, setIsOpenAuthPopup] = useState<boolean>(false);
-  const [courses, setCourses] = useState<CourseItemInterface[]>([]);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-
-  useEffect(() => {
-    async function getCourses() {
-      setIsLoading(true);
-
-      try {
-        const allCourses = await getAllCourses();
-        dispatch(setAllCourses(allCourses));
-        setCourses(allCourses);
-      } catch (error) {
-        if (error instanceof AxiosError) {
-          if (error.response) {
-            setErrorMessage(error.response.data.message);
-          } else {
-            setErrorMessage('Курсы временно недоступны, попробуйте позже');
-          }
-        }
-      } finally {
-        setIsLoading(false);
-      }
-    }
-
-    getCourses();
-  }, []);
 
   return (
     <div style={{ position: 'relative' }}>
@@ -83,7 +38,8 @@ export default function Main() {
       <div className={styles.mainTitle__container}>
         <h1 className={styles.mainTitle__text}>
           Начните заниматься спортом
-          <br />и улучшите качество жизни
+          <br className={styles.mainTitle__lineBreaks} /> и улучшите качество
+          жизни
         </h1>
 
         <div className={styles.slogan__container}>
@@ -107,16 +63,16 @@ export default function Main() {
       </div>
 
       <div className={styles.courses__container}>
-        {isLoading ? (
+        {loading ? (
           Array.from({ length: 6 }).map((item, index) => (
             <div key={index}>
               <CourseItemSkeleton withProgress={false} />
             </div>
           ))
-        ) : errorMessage ? (
-          <p className={styles.courses__error_message}>{errorMessage}</p>
+        ) : error ? (
+          <p className={styles.courses__error_message}>{error}</p>
         ) : (
-          courses.map((courseItem) => (
+          allCourses.map((courseItem) => (
             <CourseItem
               key={courseItem._id}
               courseItem={courseItem}
