@@ -1,13 +1,13 @@
 'use client';
 
-import Main from '@/components/Main/Main';
+import CoursePage from '@/components/CoursePage/CoursePage';
 
 import { useAuthHook } from '@/services/hooks/useAuthHook';
 import useSelectedAndProgress from '@/services/hooks/useSelectedAndProgress';
 
-export default function MainPage() {
+export default function CoursePagePage() {
   useAuthHook();
   useSelectedAndProgress();
 
-  return <Main />;
+  return <CoursePage />;
 }

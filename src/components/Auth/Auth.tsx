@@ -6,8 +6,8 @@ import { SetStateAction, useState } from 'react';
 import { AxiosError } from 'axios';
 import { toast } from 'react-toastify';
 
-import { userLogin, userSignup } from '@/services/authApi';
-import { getUserData } from '@/services/courseApi';
+import { userLogin, userSignup } from '@/services/api/authApi';
+import { getUserData } from '@/services/api/courseApi';
 
 import { useAppDispatch, useAppSelector } from '@/store/store';
 import {
@@ -18,6 +18,7 @@ import {
   setSelectedCourses,
   setCourseProgress,
 } from '@/store/features/authSlice';
+import { setUtilityLoading } from '@/store/features/utilitySlice';
 
 import {
   LoginAndSignupDataInterface,
@@ -37,14 +38,9 @@ export default function Auth({
   const dispatch = useAppDispatch();
 
   const { isSignup } = useAppSelector((state) => state.authentication);
+  const { loading } = useAppSelector((state) => state.utilities);
 
-  const [loginAndSignupData, setLoginAndSignupData] =
-    useState<LoginAndSignupDataInterface>({
-      email: '',
-      password: '',
-    });
   const [passwordCheck, setPasswordCheck] = useState<string>('');
-
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [errors, setErrors] = useState<{
     email: boolean;
@@ -56,7 +52,11 @@ export default function Auth({
     passwordCheck: false,
   });
 
-  const [loading, setLoading] = useState<boolean>(false);
+  const [loginAndSignupData, setLoginAndSignupData] =
+    useState<LoginAndSignupDataInterface>({
+      email: '',
+      password: '',
+    });
 
   function onFormInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     switch (event.currentTarget.name) {
@@ -99,7 +99,7 @@ export default function Auth({
     event.preventDefault();
     event.stopPropagation();
 
-    setLoading(true);
+    dispatch(setUtilityLoading(true));
 
     if (
       !formErrors({
@@ -110,7 +110,7 @@ export default function Auth({
         isSignup,
       })
     ) {
-      setLoading(false);
+      dispatch(setUtilityLoading(false));
       return;
     }
 
@@ -167,7 +167,7 @@ export default function Auth({
         }
       }
     } finally {
-      setLoading(false);
+      dispatch(setUtilityLoading(false));
     }
   }
 
@@ -224,14 +224,9 @@ export default function Auth({
         <div className={styles.auth__btnsContainer}>
           <button
             disabled={loading}
-            className={classNames(
-              styles.auth__btnSendData,
-              styles.auth__btnText,
-              {
-                [styles.auth__btnSendData_inactive]: loading,
-                [styles.auth__btnText_inactive]: loading,
-              },
-            )}
+            className={classNames(styles.auth__btnSendData, {
+              [styles.auth__btnSendData_inactive]: loading,
+            })}
             onClick={(event) => {
               userFormRequest(event);
             }}
@@ -241,14 +236,9 @@ export default function Auth({
 
           <button
             disabled={loading}
-            className={classNames(
-              styles.auth__btnFormChange,
-              styles.auth__btnText,
-              {
-                [styles.auth__btnFormChange_inactive]: loading,
-                [styles.auth__btnText_inactive]: loading,
-              },
-            )}
+            className={classNames(styles.auth__btnFormChange, {
+              [styles.auth__btnFormChange_inactive]: loading,
+            })}
             onClick={(event) => {
               onFormTypeChange(event);
             }}
