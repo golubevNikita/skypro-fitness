@@ -116,11 +116,10 @@ export default function WorkoutPage() {
         ''
       )}
 
-      <div className={styles.workout__page_container}>
-        <Header withInscription={false} />
+      <Header withInscription={false} />
 
-        <h1 className={styles.course__title}>{course?.nameRU}</h1>
-
+      <h1 className={styles.course__title}>{course?.nameRU}</h1>
+      <div className={styles.workout__video_container}>
         <iframe
           className={styles.workout__video}
           src={workout?.video}
@@ -132,92 +131,88 @@ export default function WorkoutPage() {
           allow="accelerometer; gyroscope; clipboard-write; encrypted-media; picture-in-picture"
           allowFullScreen
         ></iframe>
+      </div>
 
-        {displayVideoError ? (
-          <div className={styles.workout__fallback_container}>
-            <h3 className={styles.workout__fallback_title}>
-              {workoutName ? workoutName : 'Workout video – YouTube'}
-            </h3>
-            <p className={styles.workout__fallback_message}>
-              {`Ваш браузер не поддерживает видео или видео не загрузилось. `}
-              <a
-                className={styles.workout__fallback_link}
-                href={workout?.video}
-              >
-                Смотреть на YouTube
-              </a>
-            </p>
+      {displayVideoError ? (
+        <div className={styles.workout__fallback_container}>
+          <h3 className={styles.workout__fallback_title}>
+            {workoutName ? workoutName : 'Workout video – YouTube'}
+          </h3>
+          <p className={styles.workout__fallback_message}>
+            {`Ваш браузер не поддерживает видео или видео не загрузилось. `}
+            <a className={styles.workout__fallback_link} href={workout?.video}>
+              Смотреть на YouTube
+            </a>
+          </p>
+        </div>
+      ) : (
+        ''
+      )}
+
+      <div className={styles.workouts__container_center}>
+        <div className={styles.workouts__container}>
+          <h2 className={styles.workout__title}>
+            {`Упражнения тренировки ${typeof workoutNumber !== 'undefined' ? workoutNumber + 1 : ''}`}
+          </h2>
+
+          <div className={styles.workouts__wrapper}>
+            {workout?.exercises && withExercises ? (
+              workout?.exercises.map((exercise, index) => {
+                return (
+                  <div
+                    key={exercise._id}
+                    className={styles.workout__progressContainer}
+                  >
+                    <p className={styles.workout__progressQuantity}>
+                      {`${exercise.name.split(' (')[0]} ${
+                        workoutExercisesProgress && requiredExercisesQuantity
+                          ? Math.floor(
+                              (workoutExercisesProgress.progressData[index] /
+                                requiredExercisesQuantity[index]) *
+                                100,
+                            )
+                          : 0
+                      }%`}
+                    </p>
+
+                    <Progressbar
+                      value={
+                        workoutExercisesProgress && requiredExercisesQuantity
+                          ? Math.floor(
+                              (workoutExercisesProgress.progressData[index] /
+                                requiredExercisesQuantity[index]) *
+                                100,
+                            )
+                          : 0
+                      }
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <p className={styles.workout__withoutProgress}>
+                В данной тренировке нет упражнений, требующих заполнить прогресс
+              </p>
+            )}
           </div>
-        ) : (
-          ''
-        )}
 
-        <div className={styles.workouts__container_center}>
-          <div className={styles.workouts__container}>
-            <h2 className={styles.workout__title}>
-              {`Упражнения тренировки ${typeof workoutNumber !== 'undefined' ? workoutNumber + 1 : ''}`}
-            </h2>
-
-            <div className={styles.workouts__wrapper}>
-              {workout?.exercises && withExercises ? (
-                workout?.exercises.map((exercise, index) => {
-                  return (
-                    <div
-                      key={exercise._id}
-                      className={styles.workout__progressContainer}
-                    >
-                      <p className={styles.workout__progressQuantity}>
-                        {`${exercise.name.split(' (')[0]} ${
-                          workoutExercisesProgress && requiredExercisesQuantity
-                            ? Math.floor(
-                                (workoutExercisesProgress.progressData[index] /
-                                  requiredExercisesQuantity[index]) *
-                                  100,
-                              )
-                            : 0
-                        }%`}
-                      </p>
-
-                      <Progressbar
-                        value={
-                          workoutExercisesProgress && requiredExercisesQuantity
-                            ? Math.floor(
-                                (workoutExercisesProgress.progressData[index] /
-                                  requiredExercisesQuantity[index]) *
-                                  100,
-                              )
-                            : 0
-                        }
-                      />
-                    </div>
-                  );
-                })
-              ) : (
-                <p className={styles.workout__withoutProgress}>
-                  В данной тренировке нет упражнений, требующих заполнить
-                  прогресс
-                </p>
-              )}
-            </div>
-
-            <button
-              className={styles.workouts__progressBtn}
-              onClick={(event) => {
-                workoutsProgressButtonHandler(event);
-              }}
-            >
-              {isWorkoutCompleted
-                ? 'Сбросить прогресс'
-                : withExercises
-                  ? workoutExercisesProgress?.progressData?.reduce(
-                      (sum, exerciseProgress) => sum + exerciseProgress,
-                      0,
-                    )
-                    ? 'Обновить свой прогресс'
-                    : 'Заполнить свой прогресс'
-                  : 'Отметить выполнение'}
-            </button>
-          </div>
+          <button
+            className={styles.workouts__progressBtn}
+            onClick={(event) => {
+              workoutsProgressButtonHandler(event);
+            }}
+          >
+            {isWorkoutCompleted
+              ? 'Сбросить прогресс'
+              : withExercises
+                ? workoutExercisesProgress?.progressData?.reduce(
+                    (sum, exerciseProgress) => sum + exerciseProgress,
+                    0,
+                  )
+                  ? 'Обновить свой прогресс'
+                  : 'Заполнить свой прогресс'
+                : 'Отметить выполнение'}
+          </button>
         </div>
       </div>
     </div>
