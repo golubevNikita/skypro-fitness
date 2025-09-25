@@ -166,7 +166,7 @@ export function progressbarCourseDefiner(
 
 export function workoutsNamesHelper(workoutName: string): string[] {
   if (workoutName.includes('Урок')) {
-    return [workoutName.split('.')[0], workoutName.split('.').slice(1).join()];
+    return [workoutName.split('.')[0], workoutName.split('. ').slice(1).join()];
   }
 
   if (workoutName.includes(' / ')) {
@@ -178,13 +178,3 @@ export function workoutsNamesHelper(workoutName: string): string[] {
 
   return [workoutName];
 }
-
-// 6i67sm | Урок 3. Новые движения | no exercises
-
-// ypox9r | Урок 1. Основы | no exercises
-
-// ab1c3f | Утренняя практика / Йога на каждый день / 1 день / Алексей Казубский
-
-// kfpq8e | Разогрев мышц 2.0
-
-// q02a6i | Техника дыхания

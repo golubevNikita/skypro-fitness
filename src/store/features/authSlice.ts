@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { CourseProgressInterface } from '@/sharedInterfaces/sharedInterfaces';
 
-interface initialState {
+export interface initialState {
   isSignup: boolean;
   // текущая форма: авторизация / регистрация
 
@@ -34,7 +34,7 @@ const initialState: initialState = {
   },
 };
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: 'authentication',
   initialState,
   reducers: {
