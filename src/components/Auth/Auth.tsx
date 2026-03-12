@@ -27,6 +27,7 @@ import {
 } from '@/sharedInterfaces/sharedInterfaces';
 
 import { formErrors } from '@/services/utilities';
+import { withBasePath } from '@/shared/basePath';
 
 import styles from './auth.module.css';
 
@@ -174,7 +175,7 @@ export default function Auth({
   return (
     <div className={styles.auth__container}>
       <Image
-        src={'/img/logo.png'}
+        src={withBasePath('/img/logo.png')}
         alt="skypro fitness logo"
         width={220}
         height={35}

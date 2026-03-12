@@ -1,15 +1,10 @@
-module.exports = {
+import type { NextConfig } from 'next';
+
+const nextConfig: NextConfig = {
+  basePath: '/projects/fitness',
   images: {
     unoptimized: true,
   },
-
-  async redirects() {
-    return [
-      {
-        source: '/',
-        destination: '/main',
-        permanent: true,
-      },
-    ];
-  },
 };
+
+export default nextConfig;

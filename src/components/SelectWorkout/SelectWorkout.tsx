@@ -14,6 +14,7 @@ import {
 } from '@/sharedInterfaces/sharedInterfaces';
 
 import { workoutsNamesHelper } from '@/services/utilities';
+import { workoutRoute } from '@/shared/routes';
 
 import styles from './selectWorkout.module.css';
 
@@ -50,7 +51,7 @@ export default function SelectWorkout({
 
     if (chosenWorkoutId && currentWorkout) {
       dispatch(setCurrentWorkout(currentWorkout));
-      router.push(`/main/workout/${chosenWorkoutId}`);
+      router.push(workoutRoute(chosenWorkoutId));
 
       return;
     }

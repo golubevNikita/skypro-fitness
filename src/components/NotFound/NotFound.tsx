@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { homeRoute } from '@/shared/routes';
 
 import styles from './notFound.module.css';
 
@@ -21,7 +22,7 @@ export default function NotFound() {
             или перенесена на другой адрес
           </p>
 
-          <Link className={styles.btn__portalToMain} href="/main">
+          <Link className={styles.btn__portalToMain} href={homeRoute()}>
             Вернуться на главную
           </Link>
         </div>

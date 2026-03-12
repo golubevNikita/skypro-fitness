@@ -11,6 +11,7 @@ import {
   progressbarCourseDefiner,
   workoutsNamesHelper,
 } from './utilities';
+import { withBasePath } from '@/shared/basePath';
 
 function findWorkoutsListByCourseId(courseId: string): WorkoutsListInterface[] {
   return (
@@ -23,32 +24,32 @@ describe('pictureDefiner', () => {
   // получение корректного адреса изображения
   it('Stretching', () => {
     expect(pictureDefiner('Stretching', 'item')).toStrictEqual(
-      '/img/blue-item.png',
+      withBasePath('/img/blue-item.png'),
     );
   });
   it('StepAirobic', () => {
     expect(pictureDefiner('StepAirobic', 'page')).toStrictEqual(
-      '/img/peach-page.png',
+      withBasePath('/img/peach-page.png'),
     );
   });
   it('Yoga', () => {
     expect(pictureDefiner('Yoga', 'item')).toStrictEqual(
-      '/img/yellow-item.png',
+      withBasePath('/img/yellow-item.png'),
     );
   });
   it('BodyFlex', () => {
     expect(pictureDefiner('BodyFlex', 'page')).toStrictEqual(
-      '/img/violet-page.png',
+      withBasePath('/img/violet-page.png'),
     );
   });
   it('Fitness', () => {
     expect(pictureDefiner('Fitness', 'item')).toStrictEqual(
-      '/img/orange-item.png',
+      withBasePath('/img/orange-item.png'),
     );
   });
   it('Powerlifting', () => {
     expect(pictureDefiner('Powerlifting', 'page')).toStrictEqual(
-      '/img/no-photo-page.png',
+      withBasePath('/img/no-photo-page.png'),
     );
   });
 });

@@ -5,7 +5,7 @@
 }
 
 body {
-  font-family: var(--font-roboto), 'Arial';
+  font-family: Arial, sans-serif;
   background-color: #fafafa;
   overflow-x: hidden;
 
@@ -35,7 +35,7 @@ input,
 button {
   color: #000000;
   text-decoration: none;
-  font-family: var(--font-roboto), 'Arial';
+  font-family: Arial, sans-serif;
 }
 
 ul {

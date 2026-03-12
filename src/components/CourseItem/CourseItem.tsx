@@ -22,6 +22,7 @@ import {
 } from '@/sharedInterfaces/sharedInterfaces';
 
 import { pictureDefiner, progressbarCourseDefiner } from '@/services/utilities';
+import { courseRoute, homeRoute } from '@/shared/routes';
 
 import styles from './courseItem.module.css';
 
@@ -80,7 +81,7 @@ export default function CourseItem({
 
     const isAlreadySelected = user.selectedCourses.includes(courseItem._id);
 
-    if (isAlreadySelected && pathname === '/main') {
+    if (isAlreadySelected && pathname === homeRoute()) {
       toast.info('Курс уже добавлен!');
       setAddRemoveLoading(false);
       return;
@@ -147,7 +148,7 @@ export default function CourseItem({
       <div className={styles.course__infoContainer}>
         <Link
           onClick={onClickSetCourse}
-          href={`/main/course/${courseItem._id}`}
+          href={courseRoute(courseItem._id)}
         >
           <h3 className={styles.course__title}>{courseItem.nameRU}</h3>
 

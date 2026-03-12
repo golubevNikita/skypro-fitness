@@ -19,6 +19,7 @@ import Header from '../Header/Header';
 import FittingNumber from './FittingNumber';
 
 import { pictureDefiner } from '@/services/utilities';
+import { withBasePath } from '@/shared/basePath';
 
 import styles from './coursePage.module.css';
 
@@ -196,7 +197,7 @@ export default function CoursePage() {
           <Image
             className={styles.addingCourse__sportsman}
             priority
-            src={'/img/sportsman.png'}
+            src={withBasePath('/img/sportsman.png')}
             alt="sportsman"
             width={487}
             height={542}
@@ -204,7 +205,7 @@ export default function CoursePage() {
 
           <Image
             className={styles.addingCourse__vector}
-            src={'/img/vector.png'}
+            src={withBasePath('/img/vector.png')}
             alt="vector"
             width={670}
             height={391}
@@ -212,7 +213,7 @@ export default function CoursePage() {
 
           <Image
             className={styles.addingCourse__vector_mobile}
-            src={'/img/vector-mobile.png'}
+            src={withBasePath('/img/vector-mobile.png')}
             alt="vector"
             width={475}
             height={339}
@@ -220,7 +221,7 @@ export default function CoursePage() {
 
           <Image
             className={styles.addingCourse__shoulderVector}
-            src={'/img/shoulder-vector.png'}
+            src={withBasePath('/img/shoulder-vector.png')}
             alt="vector"
             width={50}
             height={43}

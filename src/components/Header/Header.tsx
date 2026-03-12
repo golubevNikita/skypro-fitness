@@ -11,6 +11,8 @@ import {
   setCurrentCourse,
   setCurrentWorkout,
 } from '@/store/features/courseSlice';
+import { withBasePath } from '@/shared/basePath';
+import { homeRoute, profileRoute } from '@/shared/routes';
 
 import styles from './header.module.css';
 
@@ -39,7 +41,7 @@ export default function Header({
     dispatch(setCurrentWorkout(null));
     dispatch(clearStorageTokens());
 
-    router.push('/main');
+    router.push(homeRoute());
   }
 
   return (
@@ -54,7 +56,9 @@ export default function Header({
           <Image
             className={styles.login__logo}
             src={
-              withInscription ? '/img/logo-inscription.png' : '/img/logo.png'
+              withInscription
+                ? withBasePath('/img/logo-inscription.png')
+                : withBasePath('/img/logo.png')
             }
             alt="skypro fitness logo"
             width={withInscription ? 326 : 220}
@@ -62,20 +66,20 @@ export default function Header({
             onClick={() => {
               dispatch(setCurrentCourse(null));
               dispatch(setCurrentWorkout(null));
-              router.push('/main');
+              router.push(homeRoute());
             }}
           />
 
           <Image
             className={styles.login__logo_mobile}
-            src={'/img/logo.png'}
+            src={withBasePath('/img/logo.png')}
             alt="skypro fitness logo mobile"
             width={220}
             height={35}
             onClick={() => {
               dispatch(setCurrentCourse(null));
               dispatch(setCurrentWorkout(null));
-              router.push('/main');
+              router.push(homeRoute());
             }}
           />
 
@@ -125,7 +129,7 @@ export default function Header({
                     onClick={() => {
                       setIsOpenManagementPanel(false);
                     }}
-                    href={'/main/profile'}
+                    href={profileRoute()}
                   >
                     Мой профиль
                   </Link>

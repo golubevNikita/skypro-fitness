@@ -22,6 +22,8 @@ import CourseItem from '../CourseItem/CourseItem';
 import CourseItemSkeleton from '../CourseItem/CourseItemSkeleton';
 
 import { CourseItemInterface } from '@/sharedInterfaces/sharedInterfaces';
+import { homeRoute } from '@/shared/routes';
+import { withBasePath } from '@/shared/basePath';
 
 import styles from './profile.module.css';
 
@@ -50,7 +52,7 @@ export default function Profile() {
     event.stopPropagation();
 
     dispatch(clearStorageTokens());
-    router.push('/main');
+    router.push(homeRoute());
   }
 
   async function onClickResetCourseProgress(
@@ -193,7 +195,7 @@ export default function Profile() {
       <div className={styles.profile__container}>
         <Image
           priority
-          src={'/img/photo-profile.png'}
+          src={withBasePath('/img/photo-profile.png')}
           alt="profile picture"
           width={197}
           height={197}

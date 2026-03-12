@@ -4,21 +4,22 @@ import {
   WorkoutsListInterface,
   CourseProgressInterface,
 } from '@/sharedInterfaces/sharedInterfaces';
+import { withBasePath } from '@/shared/basePath';
 
 export function pictureDefiner(name: string, size: string) {
   switch (name) {
     case 'Stretching':
-      return `/img/blue-${size}.png`;
+      return withBasePath(`/img/blue-${size}.png`);
     case 'StepAirobic':
-      return `/img/peach-${size}.png`;
+      return withBasePath(`/img/peach-${size}.png`);
     case 'Yoga':
-      return `/img/yellow-${size}.png`;
+      return withBasePath(`/img/yellow-${size}.png`);
     case 'BodyFlex':
-      return `/img/violet-${size}.png`;
+      return withBasePath(`/img/violet-${size}.png`);
     case 'Fitness':
-      return `/img/orange-${size}.png`;
+      return withBasePath(`/img/orange-${size}.png`);
     default:
-      return `/img/no-photo-${size}.png`;
+      return withBasePath(`/img/no-photo-${size}.png`);
   }
 }
 
